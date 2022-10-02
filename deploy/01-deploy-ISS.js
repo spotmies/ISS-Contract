@@ -10,9 +10,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     "0x97966092fb65f201397e6aa880e2296302d7df7bbb477ae44e51eafce4f1ce66";
 
   const HH_root_hash =
-    "0xb834f50bde8ff12ee0bfb9e614c52213983a1d960a3f9111e47f126d13922353";
+    "0x1851855d606db3a0bd811d5a9175b48ecd0f6b8a7666476f5f721b9018682434";
   const HH_skull_hash =
-    "0xcd7106ee83b733c716fd9364eee9f331b728ef33f450dcefa0ff868862e0ad95";
+    "0x5b2dd006ca115df682c63afaefb3a977b7d02d084628cf6b3cc879edcdf0dc93";
   const args = [1000, "nothing", HH_root_hash, HH_skull_hash];
 
   const ISSContract = await deploy("skullSyndicate", {

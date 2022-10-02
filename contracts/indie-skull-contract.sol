@@ -22,9 +22,9 @@ contract skullSyndicate is ERC721A, Ownable {
     uint256 internal MAX_SUPPLY = 2500;
     uint256 internal mint_Price = 0.015 ether;
     uint256 internal skull_List_Mint_Price = 0.009 ether;
-    uint32 internal mint_Time = 1664618786;
-    uint32 internal Skull_List_Time = 1664633212;
-    uint32 internal whiteList_Time = 1664640412;
+    uint32 internal mint_Time = 1664709300;
+    uint32 internal Skull_List_Time = 1664710200;
+    uint32 internal whiteList_Time = 1664711100;
     // bool internal paused = false;
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
@@ -40,7 +40,7 @@ contract skullSyndicate is ERC721A, Ownable {
     bool internal checkSkull;
 
     string internal baseURI =
-        "https://itssomethingnft.mypinata.cloud/ipfs/QmRqbzdQ9GiHcLjm7EfzyYQ1NrjvBCdhfaqXPuR56WKm46/";
+        "https://gateway.pinata.cloud/ipfs/Qmc1Azz4h3zcg2fZrTbTEmq7jNfyNoDmE8U8SbQWTn1cso/";
 
     // mapping(address => bool) public whitelisted;
 
@@ -49,13 +49,13 @@ contract skullSyndicate is ERC721A, Ownable {
         string memory _contractURI,
         bytes32 _whiteList_root,
         bytes32 _skull_root
-    ) ERC721A("Indie Skull Syndicate", "ISS") {
+    ) ERC721A("Indie Skull Syndicate", "$kull") {
         royaltyFeesInBips = _royaltyFeesInBips;
         contractURI = _contractURI;
         whiteList_root = _whiteList_root;
         skull_root = _skull_root;
         royaltyReceiver = msg.sender;
-        _safeMint(msg.sender, 1);
+        _safeMint(msg.sender, 31);
     }
 
     function mint(
@@ -104,7 +104,7 @@ contract skullSyndicate is ERC721A, Ownable {
             if (quantity + _numberMinted(msg.sender) > MAX_MINTS) {
                 require(
                     quantity + _numberMinted(msg.sender) < MAX_MINTS,
-                    "You can only mint 2 NFT"
+                    "You can only mint 2 NFTs"
                 );
                 // revert You_can_only_mint_2_NFT();
             }
@@ -123,38 +123,45 @@ contract skullSyndicate is ERC721A, Ownable {
         if (msg.sender != owner()) {
             if (checkSkull == true) {
                 require(
-                    Skull_Mints <= 5,
+                    Skull_Mints <= 500,
                     "Not Enough Tokens Left for skullList"
                 );
-                if (block.timestamp >= Skull_List_Time || totalSupply() >= 5) {
+                if (
+                    block.timestamp >= Skull_List_Time || totalSupply() >= 1531
+                ) {
                     _safeMint(msg.sender, quantity);
                     Skull_Mints += quantity;
                 } else {
-                    require(totalSupply() >= 5, "Wait Till Skull Mint Starts");
+                    require(
+                        totalSupply() >= 2031,
+                        "Wait Till Skull List Mint Starts"
+                    );
                     require(
                         block.timestamp >= Skull_List_Time,
-                        "Wait Till Skull Mint Starts"
+                        "Wait Till Skull List Mint Starts"
                     );
                     // revert Wait_Till_Skull_Mint_Starts();
                 }
             } else if (checkWL == true) {
-                require(WL_Mints <= 5, "Not Enough Tokens Left for whitelist");
-                if (block.timestamp >= whiteList_Time || totalSupply() >= 10) {
+                require(WL_Mints <= 500, "Not Enough Tokens Left for OG");
+                if (
+                    block.timestamp >= whiteList_Time || totalSupply() >= 2031
+                ) {
                     _safeMint(msg.sender, quantity);
                     WL_Mints += quantity;
                 } else {
-                    require(
-                        totalSupply() >= 10,
-                        "WhiteListers Still Have Time"
-                    );
+                    require(totalSupply() >= 2031, "OG mint not started yet.");
                     require(
                         block.timestamp >= whiteList_Time,
-                        "WhiteListers Still Have Time To Mint"
+                        "OG Still Have Time To Mint"
                     );
                     // revert WhiteListers_Still_Have_Time_To_Mint();
                 }
             } else {
-                require(Public_Mints < 15, "Not Enough Tokens Left for public");
+                require(
+                    Public_Mints < 1500,
+                    "Not Enough Tokens Left for public"
+                );
                 _safeMint(msg.sender, quantity);
                 Public_Mints += quantity;
             }
