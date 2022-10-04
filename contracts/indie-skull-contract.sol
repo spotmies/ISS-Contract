@@ -14,9 +14,11 @@ contract skullSyndicate is ERC721A, Ownable {
     uint256 internal mint_Price = 0.015 ether;
     uint256 internal skull_List_Mint_Price = 0.009 ether;
     // Time stamps for minting
-    uint32 internal Skull_List_Time = 1664710200;
-    uint32 internal mint_Time = 1664709300;
-    uint32 internal whiteList_Time = 1664711100;
+    uint32 internal Skull_List_Time = 1664978400;
+    uint32 internal mint_Time = 1664982000;
+    uint32 internal whiteList_Time = 1664985600;
+    uint32 internal end_of_WL_mint = 1664989200;
+    /////////////////////////////
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
     address internal OwnerAddress = 0x2E3D02c126E75Ad3B4c95DB3A78E83044d39bf31;
@@ -43,7 +45,7 @@ contract skullSyndicate is ERC721A, Ownable {
         whiteList_root = _whiteList_root;
         skull_root = _skull_root;
         royaltyReceiver = msg.sender;
-        _safeMint(msg.sender, 31);
+        _safeMint(msg.sender, 1);
     }
 
     function mint(
@@ -70,7 +72,7 @@ contract skullSyndicate is ERC721A, Ownable {
         }
 
         if (checkWL == true || checkSkull == true) {
-            if (_numberMinted(msg.sender) == 1) {
+            if (_numberMinted(msg.sender) >= 1) {
                 require(
                     _numberMinted(msg.sender) != 1,
                     "You can only mint 1 NFT"
@@ -90,9 +92,11 @@ contract skullSyndicate is ERC721A, Ownable {
 
         if (checkSkull == true) {
             require(
-                Skull_Mints <= 1001,
+                Skull_Mints <= 1000,
                 "Not Enough Tokens Left for skullList"
             );
+            require(block.timestamp < mint_Time, "Skull mint ended.");
+            require(quantity == 1, "You can mint only 1 nft");
             // require(
             //     block.timestamp >= Skull_List_Time,
             //     "Wait Till Skull List Mint Starts"
@@ -101,6 +105,8 @@ contract skullSyndicate is ERC721A, Ownable {
             Skull_Mints += quantity;
         } else if (checkWL == true) {
             require(WL_Mints <= 500, "Not Enough Tokens Left for OG");
+            require(quantity == 1, "You can mint only 1 nft");
+            require(block.timestamp < end_of_WL_mint, "WhiteList Mint ended.");
             if (block.timestamp >= whiteList_Time || totalSupply() >= 2001) {
                 _safeMint(msg.sender, quantity);
                 WL_Mints += quantity;
@@ -113,15 +119,24 @@ contract skullSyndicate is ERC721A, Ownable {
                 // revert WhiteListers_Still_Have_Time_To_Mint();
             }
         } else {
-            require(
-                block.timestamp >= mint_Time,
-                "Public Mint Not Yet Started"
-            );
-            // require(Public_Mints < 1000, "Not Enough Tokens Left for public");
-            require(totalSupply() < 2001, "Not Enough Tokens Left for public.");
-            // require(totalSupply() >= 1031, "Wait Till Skull List Mint Starts");
-            _safeMint(msg.sender, quantity);
-            Public_Mints += quantity;
+            if (block.timestamp >= mint_Time || totalSupply() >= 1001) {
+                // require(Public_Mints < 1000, "Not Enough Tokens Left for public");
+                if (block.timestamp < end_of_WL_mint) {
+                    require(
+                        totalSupply() < 2001,
+                        "Not Enough Tokens Left for public."
+                    );
+                } else {
+                    require(
+                        totalSupply() < 2500,
+                        "Not Enough Tokens Left for public."
+                    );
+                }
+
+                // require(totalSupply() >= 1031, "Wait Till Skull List Mint Starts");
+                _safeMint(msg.sender, quantity);
+                Public_Mints += quantity;
+            }
         }
     }
 
@@ -155,7 +170,7 @@ contract skullSyndicate is ERC721A, Ownable {
 
     function withdraw() external payable onlyOwner {
         //Developer's stake
-        uint256 ds = (address(this).balance * 25) / 100;
+        uint256 ds = (address(this).balance * 15) / 100;
         payable(DeveloperAddress).transfer(ds);
 
         //Owner's stake
