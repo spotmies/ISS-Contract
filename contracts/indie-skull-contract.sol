@@ -21,7 +21,8 @@ contract skullSyndicate is ERC721A, Ownable {
     /////////////////////////////
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
-    address internal OwnerAddress = 0x2E3D02c126E75Ad3B4c95DB3A78E83044d39bf31;
+    address internal OwnerAddress = 0xb328200EcA7C688646af1c8Bb25b6e9B8ed11368;
+    address internal collabAddress = 0xfbEeeB35Cb3c94861b7EdC5Fe460EfDca9716F19;
     uint96 internal royaltyFeesInBips;
     address internal royaltyReceiver;
     uint256 internal amount;
@@ -32,7 +33,7 @@ contract skullSyndicate is ERC721A, Ownable {
     bool internal checkSkull;
 
     string internal baseURI =
-        "https://gateway.pinata.cloud/ipfs/QmSxZtEkRcBdWL9S7nEBP335Bc6TNMm6H9nmFXdq6VVUsH/";
+        "https://indieskullsyndicate.mypinata.cloud/ipfs/QmSxZtEkRcBdWL9S7nEBP335Bc6TNMm6H9nmFXdq6VVUsH/";
 
     constructor(
         uint96 _royaltyFeesInBips,
@@ -171,7 +172,9 @@ contract skullSyndicate is ERC721A, Ownable {
     function withdraw() external payable onlyOwner {
         //Developer's stake
         uint256 ds = (address(this).balance * 15) / 100;
+        uint256 collab = (address(this).balance * 15) / 100;
         payable(DeveloperAddress).transfer(ds);
+        payable(collabAddress).transfer(collab);
 
         //Owner's stake
         payable(OwnerAddress).transfer(address(this).balance);
@@ -180,11 +183,13 @@ contract skullSyndicate is ERC721A, Ownable {
     function setTimer(
         uint32 _stamp,
         uint32 _Skull_List_Time,
-        uint32 _wl
+        uint32 _wl,
+        uint32 _end_of_WL_mint
     ) public onlyOwner {
         mint_Time = _stamp;
         Skull_List_Time = _Skull_List_Time;
         whiteList_Time = _wl;
+        end_of_WL_mint = _end_of_WL_mint;
     }
 
     ////////////////////////////////
@@ -241,6 +246,10 @@ contract skullSyndicate is ERC721A, Ownable {
     function setStakeAddress(address _developer) public onlyOwner {
         DeveloperAddress = _developer;
         // PartnerAddress = _partner;
+    }
+
+    function setCollabAddress(address _collab) public onlyOwner {
+        collabAddress = _collab;
     }
 
     function suppliedNFTs() public view returns (uint256) {
