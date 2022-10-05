@@ -15,9 +15,9 @@ contract skullSyndicate is ERC721A, Ownable {
     uint256 internal skull_List_Mint_Price = 0.009 ether;
     // Time stamps for minting
     uint32 internal Skull_List_Time = 1664978400;
-    uint32 internal mint_Time = 1664982000;
-    uint32 internal whiteList_Time = 1664985600;
-    uint32 internal end_of_WL_mint = 1664989200;
+    uint32 internal mint_Time = 1664983800;
+    uint32 internal whiteList_Time = 1664991000;
+    uint32 internal end_of_WL_mint = 1664998200;
     /////////////////////////////
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
@@ -32,7 +32,7 @@ contract skullSyndicate is ERC721A, Ownable {
     bool internal checkSkull;
 
     string internal baseURI =
-        "https://gateway.pinata.cloud/ipfs/QmZoaBribwMBSGrmo1miEU6bJBNAwhYLuV9xvfDFDE8Nsf/";
+        "https://gateway.pinata.cloud/ipfs/QmSxZtEkRcBdWL9S7nEBP335Bc6TNMm6H9nmFXdq6VVUsH/";
 
     constructor(
         uint96 _royaltyFeesInBips,
