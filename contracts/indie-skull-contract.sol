@@ -32,7 +32,7 @@ contract skullSyndicate is ERC721A, Ownable {
     bool internal checkSkull;
 
     string internal baseURI =
-        "https://gateway.pinata.cloud/ipfs/Qmc1Azz4h3zcg2fZrTbTEmq7jNfyNoDmE8U8SbQWTn1cso/";
+        "https://gateway.pinata.cloud/ipfs/QmZoaBribwMBSGrmo1miEU6bJBNAwhYLuV9xvfDFDE8Nsf/";
 
     constructor(
         uint96 _royaltyFeesInBips,
