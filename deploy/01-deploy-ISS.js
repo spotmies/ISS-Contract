@@ -3,17 +3,20 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts();
   log("Deploying ISS Contract...");
 
-  const root_hash =
-    "0x28606dbda41dd044aa18c90930f12ed27de475820cc9ea3fae6fb518435d0980";
+  // const root_hash =
+  //   "0x28606dbda41dd044aa18c90930f12ed27de475820cc9ea3fae6fb518435d0980";
 
-  const skull_hash =
-    "0x97966092fb65f201397e6aa880e2296302d7df7bbb477ae44e51eafce4f1ce66";
+  // const skull_hash =
+  //   "0x97966092fb65f201397e6aa880e2296302d7df7bbb477ae44e51eafce4f1ce66";
+
+  const contractURI =
+    "https://indieskullsyndicate.mypinata.cloud/ipfs/QmSxZtEkRcBdWL9S7nEBP335Bc6TNMm6H9nmFXdq6VVUsH/";
 
   const HH_root_hash =
-    "0x1851855d606db3a0bd811d5a9175b48ecd0f6b8a7666476f5f721b9018682434";
+    "0xb31cbecb7ace68fa3a61aea9b7c5a53e6600e22bdd48d5d86aacfa49a7054442";
   const HH_skull_hash =
-    "0x5b2dd006ca115df682c63afaefb3a977b7d02d084628cf6b3cc879edcdf0dc93";
-  const args = [1000, "nothing", HH_root_hash, HH_skull_hash];
+    "0xe43d6b7879443295f93be98d79f2ccdcddfd32e460b5c4301866b8900d971863";
+  const args = [1000, contractURI, HH_root_hash, HH_skull_hash];
 
   const ISSContract = await deploy("skullSyndicate", {
     from: deployer,
