@@ -88,7 +88,7 @@ contract skullSyndicate is ERC721A, Ownable {
             }
         }
 
-        require(msg.value >= amount, "Not Enough Ethers Sent");
+        require(msg.value == amount, "Not Enough Ethers Sent");
         require(block.timestamp >= Skull_List_Time, "Mint Not Yet Started");
 
         if (checkSkull == true) {
@@ -120,6 +120,12 @@ contract skullSyndicate is ERC721A, Ownable {
                 // revert WhiteListers_Still_Have_Time_To_Mint();
             }
         } else {
+            if (totalSupply() < 1001) {
+                require(
+                    block.timestamp >= mint_Time,
+                    "Public Mint not yet Started"
+                );
+            }
             if (block.timestamp >= mint_Time || totalSupply() >= 1001) {
                 // require(Public_Mints < 1000, "Not Enough Tokens Left for public");
                 if (block.timestamp < end_of_WL_mint) {
