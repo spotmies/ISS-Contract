@@ -98,10 +98,6 @@ contract skullSyndicate is ERC721A, Ownable {
             );
             require(block.timestamp < mint_Time, "Skull mint ended.");
             require(quantity == 1, "You can mint only 1 nft");
-            // require(
-            //     block.timestamp >= Skull_List_Time,
-            //     "Wait Till Skull List Mint Starts"
-            // );
             _safeMint(msg.sender, quantity);
             Skull_Mints += quantity;
         } else if (checkWL == true) {
@@ -117,15 +113,8 @@ contract skullSyndicate is ERC721A, Ownable {
                     block.timestamp >= whiteList_Time,
                     "OG Still Have Time To Mint"
                 );
-                // revert WhiteListers_Still_Have_Time_To_Mint();
             }
         } else {
-            if (totalSupply() < 1001) {
-                require(
-                    block.timestamp >= mint_Time,
-                    "Public Mint not yet Started"
-                );
-            }
             if (block.timestamp >= mint_Time || totalSupply() >= 1001) {
                 // require(Public_Mints < 1000, "Not Enough Tokens Left for public");
                 if (block.timestamp < end_of_WL_mint) {
@@ -143,6 +132,11 @@ contract skullSyndicate is ERC721A, Ownable {
                 // require(totalSupply() >= 1031, "Wait Till Skull List Mint Starts");
                 _safeMint(msg.sender, quantity);
                 Public_Mints += quantity;
+            } else {
+                require(
+                    block.timestamp >= mint_Time,
+                    "Public Mint not yet Started"
+                );
             }
         }
     }
