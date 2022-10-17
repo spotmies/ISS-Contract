@@ -11,13 +11,13 @@ contract skullSyndicate is ERC721A, Ownable {
     uint256 internal Skull_Mints;
     uint256 internal WL_Mints;
     uint256 internal MAX_SUPPLY = 2500;
-    uint256 internal mint_Price = 0.015 ether;
-    uint256 internal skull_List_Mint_Price = 0.009 ether;
+    uint256 internal mint_Price = 0.005 ether;
+    uint256 internal skull_List_Mint_Price = 0.002 ether;
     // Time stamps for minting
     uint32 internal Skull_List_Time = 1664978400;
-    uint32 internal mint_Time = 1664983800;
     uint32 internal whiteList_Time = 1664991000;
     uint32 internal end_of_WL_mint = 1664998200;
+    uint32 internal mint_Time = 1664983800;
     /////////////////////////////
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
@@ -96,7 +96,7 @@ contract skullSyndicate is ERC721A, Ownable {
                 Skull_Mints <= 1000,
                 "Not Enough Tokens Left for skullList"
             );
-            require(block.timestamp < mint_Time, "Skull mint ended.");
+            require(block.timestamp < whiteList_Time, "Skull mint ended.");
             require(quantity == 1, "You can mint only 1 nft");
             _safeMint(msg.sender, quantity);
             Skull_Mints += quantity;
@@ -104,7 +104,7 @@ contract skullSyndicate is ERC721A, Ownable {
             require(WL_Mints <= 500, "Not Enough Tokens Left for OG");
             require(quantity == 1, "You can mint only 1 nft");
             require(block.timestamp < end_of_WL_mint, "WhiteList Mint ended.");
-            if (block.timestamp >= whiteList_Time || totalSupply() >= 2001) {
+            if (block.timestamp >= whiteList_Time || totalSupply() >= 1001) {
                 _safeMint(msg.sender, quantity);
                 WL_Mints += quantity;
             } else {
@@ -115,21 +115,7 @@ contract skullSyndicate is ERC721A, Ownable {
                 );
             }
         } else {
-            if (block.timestamp >= mint_Time || totalSupply() >= 1001) {
-                // require(Public_Mints < 1000, "Not Enough Tokens Left for public");
-                if (block.timestamp < end_of_WL_mint) {
-                    require(
-                        totalSupply() < 2001,
-                        "Not Enough Tokens Left for public."
-                    );
-                } else {
-                    require(
-                        totalSupply() < 2500,
-                        "Not Enough Tokens Left for public."
-                    );
-                }
-
-                // require(totalSupply() >= 1031, "Wait Till Skull List Mint Starts");
+            if (block.timestamp >= mint_Time || totalSupply() >= 1501) {
                 _safeMint(msg.sender, quantity);
                 Public_Mints += quantity;
             } else {
