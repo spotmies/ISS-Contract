@@ -14,15 +14,15 @@ contract skullSyndicate is ERC721A, Ownable {
     uint256 internal mint_Price = 0.005 ether;
     uint256 internal skull_List_Mint_Price = 0.002 ether;
     // Time stamps for minting
-    uint32 internal Skull_List_Time = 1664978400;
-    uint32 internal whiteList_Time = 1664991000;
-    uint32 internal end_of_WL_mint = 1664998200;
-    uint32 internal mint_Time = 1664983800;
+    uint32 internal Skull_List_Time = 1666245039;
+    uint32 internal whiteList_Time = 1666245579;
+    uint32 internal end_of_WL_mint = 1666246179;
+    uint32 internal mint_Time = 1666246539;
     /////////////////////////////
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
     address internal OwnerAddress = 0xb328200EcA7C688646af1c8Bb25b6e9B8ed11368;
-    address internal collabAddress = 0xfbEeeB35Cb3c94861b7EdC5Fe460EfDca9716F19;
+    // address internal collabAddress = 0xfbEeeB35Cb3c94861b7EdC5Fe460EfDca9716F19;
     uint96 internal royaltyFeesInBips;
     address internal royaltyReceiver;
     uint256 internal amount;
@@ -158,9 +158,9 @@ contract skullSyndicate is ERC721A, Ownable {
     function withdraw() external payable onlyOwner {
         //Developer's stake
         uint256 ds = (address(this).balance * 15) / 100;
-        uint256 collab = (address(this).balance * 15) / 100;
+        // uint256 collab = (address(this).balance * 15) / 100;
         payable(DeveloperAddress).transfer(ds);
-        payable(collabAddress).transfer(collab);
+        // payable(collabAddress).transfer(collab);
 
         //Owner's stake
         payable(OwnerAddress).transfer(address(this).balance);
@@ -234,9 +234,9 @@ contract skullSyndicate is ERC721A, Ownable {
         // PartnerAddress = _partner;
     }
 
-    function setCollabAddress(address _collab) public onlyOwner {
-        collabAddress = _collab;
-    }
+    // function setCollabAddress(address _collab) public onlyOwner {
+    //     collabAddress = _collab;
+    // }
 
     function suppliedNFTs() public view returns (uint256) {
         return totalSupply();

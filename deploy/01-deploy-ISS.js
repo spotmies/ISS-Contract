@@ -13,9 +13,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     "https://indieskullsyndicate.mypinata.cloud/ipfs/QmSxZtEkRcBdWL9S7nEBP335Bc6TNMm6H9nmFXdq6VVUsH/";
 
   const HH_root_hash =
-    "0xb31cbecb7ace68fa3a61aea9b7c5a53e6600e22bdd48d5d86aacfa49a7054442";
+    "0x8e59d10daaef6c41461af58f0b3fdd918f4e8e0bdebb65592d3c7bae755244fe";
   const HH_skull_hash =
-    "0xe43d6b7879443295f93be98d79f2ccdcddfd32e460b5c4301866b8900d971863";
+    "0xa3532a3eb07a2fd70b46208b7983fb5cd2c9f7621f597bc628cf39982f16ed1e";
   const args = [1000, contractURI, HH_root_hash, HH_skull_hash];
 
   const ISSContract = await deploy("skullSyndicate", {
@@ -23,5 +23,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     args: args,
     log: true,
   });
-  log("Deployed College contract to:", ISSContract.address);
+  log("Deployed iss contract to:", ISSContract.address);
 };
