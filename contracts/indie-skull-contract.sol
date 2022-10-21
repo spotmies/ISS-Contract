@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 contract skullSyndicate is ERC721A, Ownable {
-    uint256 internal MAX_MINTS = 2;
+    uint256 internal MAX_MINTS = 5;
     uint256 internal Public_Mints;
     uint256 internal Skull_Mints;
     uint256 internal WL_Mints;
@@ -14,10 +14,10 @@ contract skullSyndicate is ERC721A, Ownable {
     uint256 internal mint_Price = 0.005 ether;
     uint256 internal skull_List_Mint_Price = 0.002 ether;
     // Time stamps for minting
-    uint32 internal Skull_List_Time = 1666245039;
-    uint32 internal whiteList_Time = 1666245579;
-    uint32 internal end_of_WL_mint = 1666246179;
-    uint32 internal mint_Time = 1666246539;
+    uint32 internal Skull_List_Time = 1666371600;
+    uint32 internal whiteList_Time = 1666375200;
+    uint32 internal end_of_WL_mint = 1666382400;
+    uint32 internal mint_Time = 1666378800;
     /////////////////////////////
     address internal DeveloperAddress =
         0xB96DfC3e4cBE9Da6F072d57c13b5EfB44c8b192C;
@@ -72,18 +72,25 @@ contract skullSyndicate is ERC721A, Ownable {
             amount = mint_Price * quantity;
         }
 
-        if (checkWL == true || checkSkull == true) {
+        if (checkWL == true) {
             if (_numberMinted(msg.sender) >= 1) {
                 require(
                     _numberMinted(msg.sender) != 1,
                     "You can only mint 1 NFT"
                 );
             }
+        } else if (checkSkull == true) {
+            if (_numberMinted(msg.sender) >= 2) {
+                require(
+                    _numberMinted(msg.sender) != 2,
+                    "You can only mint 2 NFTs"
+                );
+            }
         } else {
             if (quantity + _numberMinted(msg.sender) > MAX_MINTS) {
                 require(
                     quantity + _numberMinted(msg.sender) < MAX_MINTS,
-                    "You can only mint 2 NFTs"
+                    "You can only mint 5 NFTs"
                 );
             }
         }
@@ -93,11 +100,11 @@ contract skullSyndicate is ERC721A, Ownable {
 
         if (checkSkull == true) {
             require(
-                Skull_Mints <= 1000,
+                Skull_Mints <= 2000,
                 "Not Enough Tokens Left for skullList"
             );
             require(block.timestamp < whiteList_Time, "Skull mint ended.");
-            require(quantity == 1, "You can mint only 1 nft");
+            // require(quantity == 1, "You can mint only 1 nft");
             _safeMint(msg.sender, quantity);
             Skull_Mints += quantity;
         } else if (checkWL == true) {
@@ -149,6 +156,14 @@ contract skullSyndicate is ERC721A, Ownable {
 
     function add_skullList_Hash(bytes32 _root) public onlyOwner {
         skull_root = _root;
+    }
+
+    function changePrices(uint256 _mintPrice, uint256 _skullListPrice)
+        public
+        onlyOwner
+    {
+        mint_Price = _mintPrice;
+        skull_List_Mint_Price = _skullListPrice;
     }
 
     function ChangeOwner(address _OwnerAddress) public onlyOwner {

@@ -13,15 +13,35 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     "https://indieskullsyndicate.mypinata.cloud/ipfs/QmSxZtEkRcBdWL9S7nEBP335Bc6TNMm6H9nmFXdq6VVUsH/";
 
   const HH_root_hash =
-    "0x8e59d10daaef6c41461af58f0b3fdd918f4e8e0bdebb65592d3c7bae755244fe";
+    "0x41e073ed32e8c4973f91d5526a5953368a0c504963d4d3b4637eb97f00cd5d64";
   const HH_skull_hash =
-    "0xa3532a3eb07a2fd70b46208b7983fb5cd2c9f7621f597bc628cf39982f16ed1e";
+    "0x4b69e5b2406c6ff06aef158ac1167bd12db9d50245083df4688a8e279effae8a";
   const args = [1000, contractURI, HH_root_hash, HH_skull_hash];
 
-  const ISSContract = await deploy("skullSyndicate", {
-    from: deployer,
-    args: args,
-    log: true,
+  // const ISSContract = await deploy("skullSyndicate", {
+  //   from: deployer,
+  //   args: args,
+  //   log: true,
+  // });
+  // log("Deployed iss contract to:", ISSContract.address);
+
+  // await ISSContract.deployTransaction.wait(6);
+  // await verifying(ISSContract.address, args);
+  await run("verify:verify", {
+    address: "0x2e6e1b66da3dd61f118a6d03c12c451f39cde0fb",
+    constructorArguments: args,
   });
-  log("Deployed iss contract to:", ISSContract.address);
+  console.log("ISS contract verified");
 };
+
+async function verifying(contractAddress, args) {
+  console.log("Verifying contract...");
+  try {
+  } catch (e) {
+    if (e.message.includes("Contract source code already verified")) {
+      console.log("Contract source code already verified");
+    } else {
+      console.log(e.message);
+    }
+  }
+}
